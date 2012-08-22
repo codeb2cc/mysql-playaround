@@ -97,7 +97,27 @@ START TRANSACTION;
 INSERT INTO lock_test (value, message) VALUES(2, 'Ops');   -- Lock
 INSERT INTO lock_test (id, value, message) VALUES(2, 2, 'Bingo');   -- Success !
 INSERT INTO lock_test (id, value, message) VALUES(7, 2, 'Ops');   -- Failed
----- Next-key in id index !!
+---- Next-key lock ON id INDEX !!
+ROLLBACK;
+
+-------------------------------------------------------------------------------
+
+-- Duplicate-key error and deadlock
+--- Client A
+START TRANSACTION;
+INSERT INTO lock_test (id, value, message) VALUES(20, 13, 'Exclusive');     -- Acquire an exclusive lock
+ROLLBACK;   -- Exclusive lock released
+
+--- Client B
+START TRANSACTION;
+INSERT INTO lock_test (id, value, message) VALUES(20, 13, 'Exclusive');     -- Duplicate-key error then request a shared lock
+---- After Client A rollback, deadlock happends. Client B succeeds
+ROLLBACK;
+
+--- Client C
+START TRANSACTION;
+INSERT INTO lock_test (id, value, message) VALUES(20, 13, 'Exclusive');     -- Duplicate-key error then request a shared lock
+---- After Client A rollback, deadlock happends. Client C fails
 ROLLBACK;
 
 -------------------------------------------------------------------------------
