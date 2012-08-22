@@ -1,4 +1,6 @@
-mysql-playaround
-================
+MySQL Play Around
+=================
 
-All about MySQL
+Author: codeb2cc
+
+Email: codeb2cc{at}gmail.com
