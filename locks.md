@@ -1,4 +1,4 @@
-# InnoDB Transaction Model and Locking 
+# InnoDB Transaction Model and Locking
 
 ---------------------------------------
 
@@ -102,7 +102,11 @@
 
 ---------------------------------------
 
-## Multi-Versioning
+
+
+# Multi-Versioning
+
+---------------------------------------
 
 * InnoDB keeps information about old versions of changed rows, to support transactional features such as concurrency and rollback. This information is stored in the tablespace in a data structure called a rollback segment.
 * **Commit your transactions regularly**, including those transactions that issue only consistent reads. Otherwise, InnoDB cannot discard data from the update undo logs, and the rollback segment may grow too big, filling up your tablespace.
